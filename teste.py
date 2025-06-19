@@ -52,24 +52,30 @@ for i in range(7):
       previstos_plt[i] = []
     previstos_plt[i].append(valores_previstos[j][i])
 
-# # Gráfico de Valores Reais e Valores Previstos
-# for i in range(len(reais_plt)):
-#   plt.figure(figsize=(14, 6))
-#   plt.plot(reais_plt[i], label="Real", color="blue", ls="-")
-#   plt.plot(previstos_plt[i], label="Previsto", color="orange", ls="--")
-#   plt.title(f"Reais x Previstos - Dia {i + 1}")
-#   plt.xlabel("Dia")
-#   plt.ylabel("Valor")
-#   plt.legend()
-#   plt.grid(True)
-#   plt.tight_layout()
-#   plt.savefig(f"results/dia_{i + 1}.png")
-#   plt.show()
+# Gráfico de Valores Reais e Valores Previstos
+std = np.std(valores_previstos)
+x = range(len(valores_previstos))
+for i in range(len(reais_plt)):
+  plt.figure(figsize=(14, 6))
+  plt.plot(x, reais_plt[i], label="Real", color="blue", ls="-")
+  plt.plot(x, previstos_plt[i], label="Previsto", color="orange", ls="--")
+  plt.fill_between(x, previstos_plt[i] - std, previstos_plt[i] + std, color="orange", alpha=0.2, label="Desvio Padrão")
+  plt.title(f"Reais x Previstos - Dia {i + 1}")
+  plt.xlabel("Dia")
+  plt.ylabel("Valor")
+  plt.legend()
+  plt.grid(True)
+  plt.tight_layout()
+  plt.savefig(f"results/dia_{i + 1}.png")
+  plt.show()
 
 # Gráfico Valores Reais e Valores Previstos - Semana 1
+std = np.std(valores_previstos[0])
+x = range(len(valores_previstos[0]))
 plt.figure(figsize=(14, 6))
-plt.plot(valores_reais[0], label="Real", color="blue", ls="-")
-plt.plot(valores_previstos[0], label="Previsto", color="orange", ls="--")
+plt.plot(x, valores_reais[0], label="Real", color="blue", ls="-")
+plt.plot(x, valores_previstos[0], label="Previsto", color="orange", ls="--")
+plt.fill_between(x, valores_previstos[0] - std, valores_previstos[0] + std, color="orange", alpha=0.2, label="Desvio Padrão")
 plt.title("Reais x Previstos - Semana 1")
 plt.xlabel("Dia")
 plt.ylabel("Valor")
@@ -79,9 +85,9 @@ plt.tight_layout()
 plt.savefig("results/semana_1.png")
 plt.show()
 
-# # Exporta os resultados como CSV
-# for i in range(len(reais_plt)):
-#   df_dia = pd.DataFrame({f"R{i + 1}": reais_plt[i], f"P{i + 1}": previstos_plt[i]})
-#   df_dia.to_csv(f"results/dia_{i + 1}.csv", index=False)
+# Exporta os resultados como CSV
+for i in range(len(reais_plt)):
+  df_dia = pd.DataFrame({f"R{i + 1}": reais_plt[i], f"P{i + 1}": previstos_plt[i]})
+  df_dia.to_csv(f"results/dia_{i + 1}.csv", index=False)
 
-# print("Resultados do teste salvos em 'results'.")
+print("Resultados do teste salvos em 'results'.")
