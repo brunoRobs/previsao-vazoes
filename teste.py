@@ -69,21 +69,26 @@ for i in range(len(reais_plt)):
   plt.savefig(f"results/dia_{i + 1}.png")
   plt.show()
 
-# Gráfico Valores Reais e Valores Previstos - Semana 1
-std = np.std(valores_previstos[0])
-x = range(len(valores_previstos[0]))
-plt.figure(figsize=(14, 6))
-plt.plot(x, valores_reais[0], label="Real", color="blue", ls="-")
-plt.plot(x, valores_previstos[0], label="Previsto", color="orange", ls="--")
-plt.fill_between(x, valores_previstos[0] - std, valores_previstos[0] + std, color="orange", alpha=0.2, label="Desvio Padrão")
-plt.title("Reais x Previstos - Semana 1")
-plt.xlabel("Dia")
-plt.ylabel("Valor")
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.savefig("results/semana_1.png")
-plt.show()
+# Gráfico Valores Reais e Valores Previstos - Semana 1 - 7
+for i in range(7):
+  std = np.std(valores_previstos[i])
+  x = range(len(valores_previstos[i]))
+  plt.figure(figsize=(14, 6))
+  plt.plot(x, valores_reais[i], label="Real", color="blue", ls="-")
+  plt.plot(x, valores_previstos[i], label="Previsto", color="orange", ls="--")
+  epma = np.mean(np.abs((valores_reais[i] - valores_previstos[i])/valores_reais[i])) * 100
+  epma_label = plt.plot([], [], label=f"EPMA - Semana {i + 1}: {epma:.2f}%", color="none")[0]
+  legenda = plt.legend()
+  epma_label.set_visible(False)
+  plt.fill_between(x, valores_previstos[i] - std, valores_previstos[i] + std, color="orange", alpha=0.2, label="Desvio Padrão")
+  plt.title(f"Reais x Previstos - Semana {i + 1}")
+  plt.xlabel("Dia")
+  plt.ylabel("Valor")
+  plt.legend()
+  plt.grid(True)
+  plt.tight_layout()
+  plt.savefig(f"results/semana_{i + 1}.png")
+  plt.show()
 
 # Exporta os resultados como CSV
 for i in range(len(reais_plt)):
